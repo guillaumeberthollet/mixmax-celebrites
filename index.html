@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MixMax Célébrités — F13 Studio</title>
+<link rel="stylesheet" href="design/colors_and_type.css">
+<style>
+:root{
+  --face-w:190px;
+  /* alias sur les tokens F13 pour les composants du jeu */
+  --accent: var(--f13-violet);
+  --ok: var(--success);
+  --warn: var(--warning);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-1);color:var(--fg-1);padding:28px 20px 80px}
+.wrap{max-width:1120px;margin:0 auto}
+
+.brand-row{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.brand-row img{height:26px;width:auto;display:block}
+.tag{font-family:var(--font-body);font-size:11px;font-weight:600;letter-spacing:var(--tr-eyebrow);
+     text-transform:uppercase;color:var(--f13-violet-700)}
+h1{font-family:var(--font-display);font-weight:var(--w-extrabold);font-size:var(--fs-3xl);
+   line-height:var(--lh-tight);letter-spacing:var(--tr-tight);color:var(--fg-1);margin-bottom:4px}
+.sub{color:var(--fg-3);font-size:var(--fs-base);margin-bottom:20px}
+
+#status{font-family:var(--font-body);font-weight:600;font-size:13px;padding:10px 14px;border-radius:var(--radius-pill);
+        margin-bottom:20px;display:inline-flex;align-items:center;gap:10px}
+#status.loading{background:var(--f13-violet-50);border:1.5px solid var(--f13-violet-300);color:var(--f13-violet-700)}
+#status.ready{background:#EAF7EF;border:1.5px solid #B7E4C7;color:#1F7A47}
+#status.err{background:#FBEAEA;border:1.5px solid #F0BDBB;color:#A8302C}
+.spin{width:14px;height:14px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+section{background:var(--bg-1);border:1px solid var(--border-1);border-radius:var(--radius-lg);
+        box-shadow:var(--shadow-sm);padding:20px;margin-bottom:20px}
+section h2{font-family:var(--font-display);font-weight:var(--w-bold);font-size:var(--fs-lg);margin-bottom:3px}
+section .hint{color:var(--fg-3);font-size:13px;margin-bottom:16px}
+
+#gameSection{background:var(--bg-1);border:2px solid var(--f13-ink);border-radius:var(--radius-xl);
+             box-shadow:7px 7px 0 0 var(--f13-ink);padding:24px}
+
+.import-bar{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.import-bar label.btn{font-family:var(--font-body);background:var(--bg-1);border:1.5px solid var(--f13-ink);color:var(--fg-1);
+                  padding:9px 16px;border-radius:var(--radius-md);cursor:pointer;font-size:13px;font-weight:600}
+.import-bar label.btn:hover{border-color:var(--f13-violet);color:var(--f13-violet-700)}
+input[type=file]{display:none}
+.import-bar .chk{display:flex;align-items:center;gap:7px;color:var(--fg-3);font-size:13px;cursor:pointer}
+
+.gallery{display:flex;gap:14px;flex-wrap:wrap}
+.pcard{text-align:center;flex-shrink:0}
+.pcard .face-wrap{width:var(--face-w);border-radius:var(--radius-md);overflow:hidden;background:var(--bg-3);position:relative;line-height:0}
+.pcard .face-wrap img{width:100%;display:block}
+.pcard .badge{position:absolute;left:6px;top:6px;font-size:10px;padding:2px 7px;border-radius:var(--radius-pill);
+              text-transform:uppercase;letter-spacing:.06em;color:#fff;font-weight:700;line-height:1.3}
+.pcard .badge.ok{background:var(--success)}
+.pcard .badge.warn{background:var(--warning)}
+.pcard .badge.turn{background:var(--f13-violet)}
+.guide{position:absolute;left:0;right:0;height:0;border-top:1.5px dashed rgba(136,116,226,.85);pointer-events:none}
+.pcard input.name{margin-top:6px;width:var(--face-w);background:var(--bg-1);border:1.5px solid var(--border-2);
+                  color:var(--fg-1);font-size:13px;padding:5px 8px;border-radius:var(--radius-sm);text-align:center;outline:none}
+.pcard input.name:focus{border-color:var(--f13-violet);box-shadow:0 0 0 4px rgba(136,116,226,.18)}
+.pcard .remove{position:absolute;top:5px;right:5px;width:22px;height:22px;border-radius:50%;
+               background:rgba(10,10,10,.6);border:none;color:#fff;font-size:15px;line-height:1;
+               cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2}
+.pcard .remove:hover{background:var(--f13-violet)}
+
+/* ---------- Jeu ---------- */
+.game-row{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start}
+.face-col{flex-shrink:0;line-height:0;border-radius:var(--radius-lg);overflow:hidden;
+          border:2px solid var(--f13-ink)}
+.gband{width:100%;overflow:hidden;position:relative;background:var(--bg-3)}
+.gband img{width:100%;display:block;position:absolute;left:0}
+.answers-col{display:flex;flex-direction:column;flex:1;min-width:200px}
+.ans-block{display:flex;align-items:center;border-bottom:1px dashed var(--border-2)}
+.ans-block:last-child{border-bottom:none}
+.ans-input{display:flex;gap:8px;width:100%;align-items:center;flex-wrap:wrap;row-gap:6px}
+.ans-input input.guess{flex:1 1 120px;min-width:0;font-family:var(--font-body);background:var(--bg-1);
+                        border:1.5px solid var(--border-2);color:var(--fg-1);
+                        font-size:16px;padding:11px 14px;border-radius:var(--radius-md);outline:none}
+.ans-input input.guess:focus{border-color:var(--f13-violet);box-shadow:0 0 0 6px rgba(136,116,226,.18)}
+.ans-input input.guess.wrong{border-color:var(--danger);animation:shake .32s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.ans-input button.validate{font-family:var(--font-body);background:var(--f13-violet);border:2px solid var(--f13-ink);
+                           color:#fff;font-weight:600;padding:9px 16px;border-radius:var(--radius-md);
+                           cursor:pointer;font-size:13px;white-space:nowrap;box-shadow:4px 4px 0 0 var(--f13-ink);
+                           transition:transform var(--dur-quick) var(--ease-standard), box-shadow var(--dur-quick) var(--ease-standard)}
+.ans-input button.validate:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 var(--f13-ink)}
+.ans-input button.validate:active{transform:translate(2px,2px);box-shadow:2px 2px 0 0 var(--f13-ink)}
+.ans-input button.reveal{font-family:var(--font-body);background:transparent;border:1.5px solid var(--border-2);color:var(--fg-3);
+                          padding:8px 12px;border-radius:var(--radius-md);cursor:pointer;font-size:12px;
+                          font-weight:600;white-space:nowrap}
+.ans-input button.reveal:hover{border-color:var(--warning);color:#8a5a00}
+.ans-done{display:flex;align-items:center;gap:10px;width:100%;padding:8px 4px;font-size:17px;
+          font-family:var(--font-body);animation:pop .25s ease}
+.ans-done .tick{width:30px;height:30px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;
+                font-size:15px;flex-shrink:0;color:#fff}
+.ans-done.ok .tick{background:var(--success)}
+.ans-done.ok b{color:var(--fg-1)}
+.ans-done.rev .tick{background:var(--warning)}
+.ans-done.rev b{color:var(--fg-3);font-weight:500}
+.ans-done em{font-size:11px;text-transform:uppercase;letter-spacing:var(--tr-eyebrow);color:#8a5a00;font-style:normal}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+
+.game-actions{display:flex;align-items:center;gap:16px;margin-top:22px}
+button.cta{font-family:var(--font-body);border:2px solid var(--f13-ink);font-weight:600;padding:12px 22px;
+           border-radius:var(--radius-md);cursor:pointer;font-size:14px;background:var(--f13-violet);color:#fff;
+           box-shadow:5px 5px 0 0 var(--f13-ink);
+           transition:transform var(--dur-quick) var(--ease-standard), box-shadow var(--dur-quick) var(--ease-standard)}
+button.cta:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 0 var(--f13-ink)}
+button.cta:active{transform:translate(3px,3px);box-shadow:2px 2px 0 0 var(--f13-ink)}
+button.cta.ghost{background:var(--bg-1);border:1.5px solid var(--border-2);color:var(--fg-3);font-weight:500;
+                  box-shadow:none}
+button.cta.ghost:hover{transform:none;border-color:var(--f13-violet);color:var(--f13-violet-700);box-shadow:none}
+.win-msg{color:#1F7A47;font-size:14px;font-weight:600;display:none;font-family:var(--font-body)}
+.win-msg.show{display:inline}
+
+details.dev{margin-top:28px;background:var(--bg-1);border:1px solid var(--border-1);border-radius:var(--radius-lg);
+            box-shadow:var(--shadow-sm);padding:14px 18px}
+details.dev summary{cursor:pointer;color:var(--fg-3);font-size:13px;font-weight:600;user-select:none;font-family:var(--font-body)}
+details.dev[open] summary{margin-bottom:12px}
+.no-photos{color:var(--fg-3);font-size:14px;padding:20px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand-row">
+    <img src="design/assets/logo-f13-violet.png" alt="F13 Studio">
+    <span class="tag">F13 Studio</span>
+  </div>
+  <h1>MixMax Célébrités</h1>
+  <p class="sub">Trois célébrités, un seul visage. Devine à qui appartient chaque bande.</p>
+
+  <div id="status" class="loading"><span class="spin"></span><span id="statusTxt">Chargement du moteur de détection…</span></div>
+
+  <section id="gameSection">
+    <div id="gameContainer"><p class="no-photos">Préparation des visages…</p></div>
+  </section>
+
+  <details class="dev" id="devPanel" style="display:none">
+    <summary>Outils (dev) — banque de photos</summary>
+    <p class="hint">Vert = visage frontal · Violet = de profil · Orange = non détecté (exclue du jeu). Toutes les autres sont jouables.</p>
+    <div class="import-bar">
+      <label class="btn">+ Ajouter des photos<input type="file" id="fileInput" accept="image/*" multiple></label>
+      <button class="cta ghost" id="exportBtn" style="display:none" onclick="exportNorm()">Exporter la banque</button>
+      <label class="chk"><input type="checkbox" id="guideChk"> Repères de découpe</label>
+    </div>
+    <div class="gallery" id="gallery"></div>
+  </details>
+</div>
+
+<script src="vendor/face-api.min.js"></script>
+<script>
+/* ---------- Gabarit canonique 300 x 380 ----------
+   Alignement affine sur 3 points : yeux à 40% H, bouche à 72% H, écartement yeux 30% W. */
+const OUT_W=300, OUT_H=380;
+const EYE_Y=0.40*OUT_H, EYE_X=0.50*OUT_W, EYE_DX=0.15*OUT_W, MOUTH_Y=0.72*OUT_H;
+const TURN_THRESHOLD=0.16;            // au-delà → visage considéré de profil
+const FW=190, DISP_H=FW*OUT_H/OUT_W;  // vignettes galerie (dev)
+const GAME_W=460;                     // largeur du visage dans le jeu
+
+// Coupes FIXES (fractions de la hauteur normalisée) — possibles car yeux (40%) ET bouche (72%)
+// sont verrouillés à la même position pour tous les visages.
+let cuts={brow:0.355, jaw:0.635};      // brow: coupe front/yeux · jaw: coupe nez/bouche
+const CHIN_FRAC=0.96;                   // bas de la bande basse (menton)
+
+const PRELOADED=[
+  {name:"Barack Obama",       file:"photos/Obama.jpg"},
+  {name:"Elon Musk",          file:"photos/Musk.jpg"},
+  {name:"Angelina Jolie",     file:"photos/Jolie.jpg"},
+  {name:"Lionel Messi",       file:"photos/Messi.jpg"},
+  {name:"Beyoncé",            file:"photos/Beyonce.jpg"},
+  {name:"Brad Pitt",          file:"photos/BradPitt.jpg"},
+  {name:"Leonardo DiCaprio",  file:"photos/DiCaprio.jpg"},
+  {name:"Scarlett Johansson", file:"photos/Johansson.jpg"},
+  {name:"Adele",              file:"photos/Adele.jpg"},
+  {name:"Will Smith",         file:"photos/WillSmith2.jpg"},
+  {name:"Tom Hanks",          file:"photos/TomHanks.jpg"},
+  {name:"Shakira",            file:"photos/Shakira.jpg"},
+  {name:"Emma Watson",        file:"photos/EmmaWatson.jpg"},
+  {name:"Keanu Reeves",       file:"photos/KeanuReeves.jpg"},
+  {name:"Michelle Obama",     file:"photos/MichelleObama.jpg"},
+  {name:"Dwayne Johnson",     file:"photos/Rock.jpg"},
+  {name:"Denzel Washington",  file:"photos/denzel wahsinhton.png"},
+  {name:"George Clooney",     file:"photos/George_Clooney_2016.jpg"},
+  {name:"Jennifer Lawrence",  file:"photos/Jennifer_Lawrence_2013.jpg"},
+  {name:"Johnny Depp",        file:"photos/Johnny_Depp_2020.jpg"},
+  {name:"Nicole Kidman",      file:"photos/Nicole_Kidman_Cannes_2017.jpg"},
+  {name:"Robert Downey Jr",   file:"photos/Robert_Downey_Jr.png"},
+  {name:"Meryl Streep",       file:"photos/Meryl_Streep_2012.jpg"},
+
+  {name:"Tom Cruise",         file:"photos/Tom cruise.png"},
+  {name:"Natalie Portman",    file:"photos/Natalie_Portman_2025_(crop).jpg"},
+  {name:"Hugh Jackman",       file:"photos/Logan_Japan_Premiere_Red_Carpet-_Hugh_Jackman_(38445328406).jpg"},
+  {name:"Charlize Theron",    file:"photos/Charlize_Theron_(35373635784).jpg"},
+  {name:"Anne Hathaway",      file:"photos/Anne_Hathaway-68408.jpg"},
+  {name:"Ryan Gosling",       file:"photos/Ryan_Gosling_at_SSIFF_2018_(1).jpg"},
+  {name:"Emma Stone",         file:"photos/Emma_Stone_(6855553360).jpg"},
+  {name:"Idris Elba",         file:"photos/Idris_Elba-5272.jpg"},
+  {name:"Cate Blanchett",     file:"photos/Cate_Blanchett_at_the_2024_Toronto_International_Film_Festival_22.jpg"},
+  {name:"Matt Damon",         file:"photos/Matt_Damon-60034.jpg"},
+  {name:"Julia Roberts",      file:"photos/Julia_Roberts_After_The_Hunt-27.jpg"},
+  {name:"Samuel L. Jackson",  file:"photos/Samuel_L._Jackson_by_Gage_Skidmore_2.jpg"},
+  {name:"Al Pacino",          file:"photos/Al_Pacino.jpg"},
+  {name:"Nicolas Cage",       file:"photos/Nicolas_Cage_-_KirkWeaver.jpg"},
+  {name:"Halle Berry",        file:"photos/Halle_Berry_(35315709073).jpg"},
+  {name:"Zendaya",            file:"photos/Zendaya_-_DSC_0097.jpg"},
+
+  {name:"Drake",              file:"photos/Drake_in_2017.jpg"},
+  {name:"Dua Lipa",           file:"photos/Dua_Lipa-69798_(cropped).jpg"},
+  {name:"Ed Sheeran",         file:"photos/Ed_Sheeran-6886_(cropped).jpg"},
+  {name:"Rihanna",            file:"photos/Rihanna_2012_(Headshot).jpg"},
+
+  {name:"Usain Bolt",         file:"photos/Brussels,_Memorial_Van_Damme,_Usain_Bolt_(14697330331).jpg"},
+  {name:"Kylian Mbappé",      file:"photos/Kylian_Mbappe_France_v_Senegal_16_June_2026-272.jpg"},
+  {name:"LeBron James",       file:"photos/LeBron_James,_25_November_2023_02_(cropped).jpg"},
+  {name:"Neymar",             file:"photos/Neymar_Jr_presentation_-_Press_conference_for_PSG_001_(cropped).jpg"},
+  {name:"Novak Djokovic",     file:"photos/Novak_Djokovic_(19720174971).jpg"},
+  {name:"Serena Williams",    file:"photos/Serena_Williams_at_the_2025_International_Tennis_Hall_of_Fame_Induction_Ceremony_Press_Conference_(cropped2).jpg"},
+
+  {name:"Angela Merkel",      file:"photos/Angela_Merkel_Headshot_2004.jpg"},
+  {name:"Donald Trump",       file:"photos/Donald_Trump_official_portrait,_2025_(cropped_headshot).jpg"},
+  {name:"Greta Thunberg",     file:"photos/Greta_Thunberg_in_November_in_Stockholm_(cropped-white_balanced).jpg"},
+  {name:"Jeff Bezos",         file:"photos/jef bezoz.png"},
+  {name:"Joe Biden",          file:"photos/Joe_Biden_Official_portrait_2021_2.png"},
+  {name:"Mark Zuckerberg",    file:"photos/Mark_Zuckerberg.jpg"},
+  {name:"Vladimir Poutine",   file:"photos/Vladimir_Putin_official_portrait.jpg"},
+  {name:"Xi Jinping",         file:"photos/Xi_Jinping_portrait_2019.jpg"},
+];
+
+const photos=[]; // {id,name,norm,detected,frontal,turn}
+let mixSel={top:0,mid:1,bot:2};
+let game={state:{top:'playing',mid:'playing',bot:'playing'}}; // 'playing' | 'solved' | 'revealed'
+let modelsReady=false;
+
+const statusEl=document.getElementById('status');
+function setStatus(cls,txt,spin=false){statusEl.className=cls;statusEl.innerHTML=(spin?'<span class="spin"></span>':'')+`<span>${txt}</span>`;}
+
+async function init(){
+  try{
+    await faceapi.nets.tinyFaceDetector.loadFromUri('models');
+    await faceapi.nets.faceLandmark68Net.loadFromUri('models');
+    modelsReady=true;
+
+    // Tente de charger la banque pré-normalisée
+    let preNorm=null;
+    try{const r=await fetch('photos/norm/celebrites.json');if(r.ok)preNorm=await r.json();}catch(e){}
+
+    if(preNorm && preNorm.length){
+      for(const p of preNorm){
+        photos.push({id:Math.random(),name:p.name,norm:p.file,
+          detected:true,frontal:p.frontal,turn:p.turn,
+          noseBotFrac:p.noseBotFrac,mouthTopFrac:p.mouthTopFrac});
+      }
+      const f=photos.filter(p=>p.detected).length;
+      setStatus('ready',`Banque chargée — ${f} célébrités jouables.`);
+      renderGallery();newRound();
+    } else {
+      // Traitement des originales
+      setStatus('loading','Recadrage des photos en cours…',true);
+      for(const p of PRELOADED){
+        try{const r=await normalize(p.file); photos.push({id:Math.random(),name:p.name,...r});}
+        catch(e){photos.push({id:Math.random(),name:p.name,norm:'',detected:false,frontal:false,turn:0});}
+        renderGallery();
+      }
+      const f=photos.filter(p=>p.detected).length, nd=photos.filter(p=>!p.detected).length;
+      setStatus('ready',`Prêt — ${f} célébrités jouables${nd?`, ${nd} non détectées`:''}.`);
+      document.getElementById('exportBtn').style.display='';
+      renderGallery();newRound();
+    }
+  }catch(e){console.error(e);setStatus('err','Erreur moteur de détection : '+e.message);}
+}
+
+async function exportNorm(){
+  const btn=document.getElementById('exportBtn');
+  btn.textContent='Export en cours…';btn.disabled=true;
+  const meta=[];
+  for(const p of photos){
+    if(!p.norm||!p.norm.startsWith('data:')) continue;
+    const safeName=p.name.normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,'_').replace(/[^a-zA-Z0-9_]/g,'');
+    const fname=`${safeName}_norm.jpg`;
+    const a=document.createElement('a');a.href=p.norm;a.download=fname;a.click();
+    await new Promise(r=>setTimeout(r,250));
+    meta.push({name:p.name,file:`photos/norm/${fname}`,frontal:p.frontal,turn:p.turn,
+               noseBotFrac:p.noseBotFrac,mouthTopFrac:p.mouthTopFrac});
+  }
+  const blob=new Blob([JSON.stringify(meta,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='celebrites.json';a.click();
+  btn.textContent='Exporter la banque';btn.disabled=false;
+  alert(`${meta.length} fichiers téléchargés.\nDéplace-les dans le dossier photos/norm/ puis recharge la page.`);
+}
+
+function loadImage(src){return new Promise((res,rej)=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=src;});}
+function avg(pts){return {x:pts.reduce((a,p)=>a+p.x,0)/pts.length, y:pts.reduce((a,p)=>a+p.y,0)/pts.length};}
+
+function sampleBg(img){
+  // Moyenne des 4 coins de la photo → couleur de fond approximée
+  const t=document.createElement('canvas');t.width=img.width;t.height=img.height;
+  const tx=t.getContext('2d');tx.drawImage(img,0,0);
+  let r=0,g=0,b=0;
+  for(const [cx,cy] of [[0,0],[img.width-1,0],[0,img.height-1],[img.width-1,img.height-1]]){
+    const d=tx.getImageData(cx,cy,1,1).data;r+=d[0];g+=d[1];b+=d[2];
+  }
+  return `rgb(${Math.round(r/4)},${Math.round(g/4)},${Math.round(b/4)})`;
+}
+
+async function normalize(src){
+  const img=await loadImage(src);
+  const bg=sampleBg(img);
+  const canvas=document.createElement('canvas');canvas.width=OUT_W;canvas.height=OUT_H;
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,OUT_W,OUT_H);
+  let detected=false,frontal=false,turn=0,noseBotFrac=0.58,mouthTopFrac=0.66;
+
+  if(modelsReady){
+    const det=await faceapi.detectSingleFace(img,new faceapi.TinyFaceDetectorOptions({inputSize:416,scoreThreshold:0.25})).withFaceLandmarks();
+    if(det){
+      const lm=det.landmarks;
+      const le=avg(lm.getLeftEye()), re=avg(lm.getRightEye());
+      const nose=lm.getNose(); const noseTip=nose[6];
+      const mouthPts=lm.getMouth();
+      const mouthC=avg(mouthPts);
+      const jaw=lm.getJawOutline();
+      const eyesMid={x:(le.x+re.x)/2,y:(le.y+re.y)/2};
+      const dx=re.x-le.x, dy=re.y-le.y;
+      const D=Math.hypot(dx,dy);
+      // frontalité : décalage horizontal du nez vs axe des yeux
+      turn=Math.abs((noseTip.x-eyesMid.x)/D);
+      frontal=turn<=TURN_THRESHOLD;
+
+      // --- Repère redressé : rotation de -angle pour rendre la ligne des yeux horizontale ---
+      const angle=Math.atan2(dy,dx);
+      const ca=Math.cos(angle), sa=Math.sin(angle);
+      const rot=p=>({x:p.x*ca+p.y*sa, y:-p.x*sa+p.y*ca});   // applique la rotation de -angle
+      const eyesMidR=rot(eyesMid), leR=rot(le), reR=rot(re), mouthCR=rot(mouthC);
+
+      // Piste 1 — 2 repères verrouillés (yeux ET bouche) via échelles X/Y séparées, SANS cisaillement
+      const Dh=reR.x-leR.x;                 // écartement horizontal des yeux (redressé)
+      const dv=mouthCR.y-eyesMidR.y;        // distance verticale yeux→bouche
+      const scaleX=EYE_DX*2/Dh;             // yeux → ±EYE_DX
+      const scaleY=(MOUTH_Y-EYE_Y)/dv;      // bouche → MOUTH_Y pile
+
+      // Piste 2 — centrage horizontal insensible au lacet : médiane de paires symétriques
+      const midpt=(a,b)=>({x:(a.x+b.x)/2, y:(a.y+b.y)/2});
+      const mouthEndsR=rot(midpt(mouthPts[0], mouthPts[6]));      // coins de la bouche
+      const jawEndsR=rot(midpt(jaw[0], jaw[jaw.length-1]));       // extrémités de la mâchoire
+      const midXR=(eyesMidR.x+mouthEndsR.x+jawEndsR.x)/3;
+
+      ctx.save();
+      ctx.translate(EYE_X, EYE_Y);
+      ctx.scale(scaleX, scaleY);
+      ctx.translate(-midXR, -eyesMidR.y);
+      ctx.rotate(-angle);
+      ctx.drawImage(img,0,0);
+      ctx.restore();
+
+      // Mappe un point source → y canvas (pour les coupures anatomiques)
+      const mapY=p=>{const vy=-p.x*sa+p.y*ca; return EYE_Y + (vy-eyesMidR.y)*scaleY;};
+      const noseBotY=Math.max(...nose.map(mapY));       // bas du nez
+      const mouthTopY=Math.min(...mouthPts.map(mapY));  // haut de la bouche
+      noseBotFrac=noseBotY/OUT_H;
+      mouthTopFrac=mouthTopY/OUT_H;
+      detected=true;
+    }
+  }
+  if(!detected){
+    const s=Math.max(OUT_W/img.width,OUT_H/img.height);
+    const w=img.width*s,h=img.height*s;
+    ctx.drawImage(img,(OUT_W-w)/2,(OUT_H-h)/2,w,h);
+  }
+  return {norm:canvas.toDataURL('image/jpeg',0.9), detected, frontal, turn, noseBotFrac, mouthTopFrac};
+}
+
+document.getElementById('fileInput').addEventListener('change', async e=>{
+  for(const file of [...e.target.files].filter(f=>f.type.startsWith('image/'))){
+    const dataURL=await new Promise(res=>{const r=new FileReader();r.onload=ev=>res(ev.target.result);r.readAsDataURL(file);});
+    try{const r=await normalize(dataURL); photos.push({id:Math.random(),name:file.name.replace(/\.[^.]+$/,'').replace(/[_-]/g,' '),...r});}
+    catch(err){console.warn(err);}
+    renderGallery();
+  }
+  e.target.value='';
+});
+document.getElementById('guideChk').addEventListener('change',renderGallery);
+
+/* tirage de 3 personnes DISTINCTES parmi les visages détectés */
+function pickDistinct(){
+  const pool=photos.map((p,i)=>({p,i})).filter(x=>x.p.detected).map(x=>x.i);
+  if(pool.length>=3){
+    const sh=[...pool].sort(()=>Math.random()-0.5);
+    mixSel={top:sh[0],mid:sh[1],bot:sh[2]};
+  }else if(photos.length>=3){
+    mixSel={top:0,mid:1,bot:2};
+  }
+}
+
+function guideToggle(){return document.getElementById('guideChk')?.checked;}
+
+function renderGallery(){
+  const g=document.getElementById('gallery');g.innerHTML='';
+  photos.forEach((p,i)=>{
+    const badge = !p.detected ? '<span class="badge warn">centré</span>'
+                : p.frontal ? '<span class="badge ok">frontal</span>'
+                : '<span class="badge turn">de profil</span>';
+    // Repères : coupes fixes, identiques pour tous (front/yeux + nez/bouche)
+    const guides = guideToggle()
+      ? `<div class="guide" style="top:${cuts.brow*100}%"></div>
+         <div class="guide" style="top:${cuts.jaw*100}%;border-color:rgba(255,178,46,.85)"></div>` : '';
+    const card=document.createElement('div');card.className='pcard';
+    card.innerHTML=`
+      <div class="face-wrap">
+        <img src="${p.norm}" alt="${p.name}">
+        ${badge}${guides}
+        <button class="remove" title="Retirer">×</button>
+      </div>
+      <input class="name" value="${p.name}" placeholder="Nom…">`;
+    card.querySelector('.name').addEventListener('input',e=>{p.name=e.target.value;});
+    card.querySelector('.remove').addEventListener('click',()=>{
+      photos.splice(i,1);
+      ['top','mid','bot'].forEach(k=>{mixSel[k]=Math.min(mixSel[k],Math.max(0,photos.length-1));});
+      renderGallery();newRound();
+    });
+    g.appendChild(card);
+  });
+}
+
+/* ---------- Correspondance des noms (tolérante) ---------- */
+function norm(s){
+  return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[^a-z0-9]+/g,' ').trim();
+}
+function lev(a,b){
+  const m=a.length,n=b.length;
+  if(!m) return n; if(!n) return m;
+  let prev=Array.from({length:n+1},(_,i)=>i), cur=new Array(n+1);
+  for(let i=1;i<=m;i++){
+    cur[0]=i;
+    for(let j=1;j<=n;j++){
+      const cost=a[i-1]===b[j-1]?0:1;
+      cur[j]=Math.min(prev[j]+1, cur[j-1]+1, prev[j-1]+cost);
+    }
+    [prev,cur]=[cur,prev];
+  }
+  return prev[n];
+}
+// tolérance ~1 faute par tranche de 6 lettres (mini 1 dès 4 lettres) → refuse les saisies trop partielles
+function tolFor(s){return Math.max(s.length>=4?1:0, Math.floor(s.length/6));}
+// accepte : nom complet, ordre inversé, ou nom de famille seul — avec fautes de frappe
+function matchName(input, full){
+  const qi=norm(input); if(qi.length<2) return false;
+  const nf=norm(full);
+  const parts=nf.split(' ').filter(Boolean);
+  const last=parts[parts.length-1];
+  const qiSorted=qi.split(' ').filter(Boolean).sort().join(' ');
+  const variants=new Set([nf, parts.slice().sort().join(' ')]);
+  if(last && last.length>=4) variants.add(last);
+  for(const v of variants){
+    if(!v) continue;
+    const t=tolFor(v);
+    if(lev(qi,v)<=t || lev(qiSorted,v)<=t) return true;
+  }
+  return false;
+}
+
+/* ---------- Rendu du jeu ---------- */
+function newRound(){
+  pickDistinct();
+  game.state={top:'playing',mid:'playing',bot:'playing'};
+  renderGame();
+}
+
+function renderGame(){
+  const c=document.getElementById('gameContainer');
+  const pool=photos.map((p,i)=>i).filter(i=>photos[i].detected && photos[i].norm);
+  if(pool.length<3){c.innerHTML='<p class="no-photos">Il faut au moins 3 visages détectés pour jouer.</p>';return;}
+  ['top','mid','bot'].forEach(k=>{if(mixSel[k]==null||!photos[mixSel[k]])mixSel[k]=pool[0];});
+
+  const H=GAME_W*OUT_H/OUT_W;
+  const c1=cuts.brow, c2=cuts.jaw, c3=CHIN_FRAC;
+  const G={top:{h:c1*H,off:0}, mid:{h:(c2-c1)*H,off:-c1*H}, bot:{h:(c3-c2)*H,off:-c2*H}};
+  const keys=['top','mid','bot'];
+
+  const band=(k)=>{
+    const p=photos[mixSel[k]];
+    return `<div class="gband" style="height:${G[k].h}px">
+      <img src="${p.norm}" alt="" style="height:${H}px;top:${G[k].off}px"></div>`;
+  };
+  const ansBlock=(k)=>{
+    const p=photos[mixSel[k]], st=game.state[k];
+    let inner;
+    if(st==='solved') inner=`<div class="ans-done ok"><span class="tick">✓</span><b>${p.name}</b></div>`;
+    else if(st==='revealed') inner=`<div class="ans-done rev"><span class="tick">✓</span><b>${p.name}</b><em>révélé</em></div>`;
+    else inner=`<div class="ans-input">
+        <input class="guess" data-k="${k}" placeholder="Qui est-ce ?" autocomplete="off" spellcheck="false">
+        <button class="validate" data-k="${k}">Valider</button>
+        <button class="reveal" data-k="${k}">Révéler</button>
+      </div>`;
+    return `<div class="ans-block" style="height:${G[k].h}px">${inner}</div>`;
+  };
+
+  const found=keys.filter(k=>game.state[k]==='solved').length;
+  const allDone=keys.every(k=>game.state[k]!=='playing');
+  c.innerHTML=`
+    <div class="game-row">
+      <div class="face-col" style="width:${GAME_W}px">${keys.map(band).join('')}</div>
+      <div class="answers-col">${keys.map(ansBlock).join('')}</div>
+    </div>
+    <div class="game-actions">
+      <button class="cta ${allDone?'':'ghost'}" id="nextBtn">${allDone?'Visage suivant →':'Passer'}</button>
+      <span class="win-msg ${allDone&&found===3?'show':''}">Bravo — les 3 trouvés.</span>
+    </div>`;
+
+  const tryValidate=(k)=>{
+    const inp=c.querySelector(`input.guess[data-k="${k}"]`);
+    if(!inp) return;
+    if(matchName(inp.value, photos[mixSel[k]].name)){ game.state[k]='solved'; renderGame(); }
+    else { inp.classList.remove('wrong'); void inp.offsetWidth; inp.classList.add('wrong'); inp.focus(); }
+  };
+  c.querySelectorAll('input.guess').forEach(inp=>{
+    inp.addEventListener('input',()=>inp.classList.remove('wrong'));
+    inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); tryValidate(inp.dataset.k); } });
+  });
+  c.querySelectorAll('button.validate').forEach(btn=>{
+    btn.addEventListener('click',()=>tryValidate(btn.dataset.k));
+  });
+  c.querySelectorAll('button.reveal').forEach(btn=>{
+    btn.addEventListener('click',()=>{ game.state[btn.dataset.k]='revealed'; renderGame(); });
+  });
+  document.getElementById('nextBtn').addEventListener('click',newRound);
+
+  const firstOpen=c.querySelector('input.guess'); if(firstOpen) firstOpen.focus();
+}
+
+// Outils dev masqués par défaut — ajouter ?dev=1 à l'URL pour les réafficher
+if(new URLSearchParams(location.search).has('dev')){
+  document.getElementById('devPanel').style.display='';
+}
+
+init();
+</script>
+</body>
+</html>

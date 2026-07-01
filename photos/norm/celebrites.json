@@ -1,0 +1,442 @@
+[
+  {
+    "name": "Barack Obama",
+    "file": "photos/norm/Barack_Obama_norm.jpg",
+    "frontal": true,
+    "turn": 0.027296078870155092,
+    "noseBotFrac": 0.6153673887887489,
+    "mouthTopFrac": 0.6633111087311752
+  },
+  {
+    "name": "Elon Musk",
+    "file": "photos/norm/Elon_Musk_norm.jpg",
+    "frontal": true,
+    "turn": 0.0025209207282038465,
+    "noseBotFrac": 0.6206932346817184,
+    "mouthTopFrac": 0.6761794283101549
+  },
+  {
+    "name": "Angelina Jolie",
+    "file": "photos/norm/Angelina_Jolie_norm.jpg",
+    "frontal": true,
+    "turn": 0.06355244922791468,
+    "noseBotFrac": 0.6215207519391417,
+    "mouthTopFrac": 0.6821149995401081
+  },
+  {
+    "name": "Lionel Messi",
+    "file": "photos/norm/Lionel_Messi_norm.jpg",
+    "frontal": true,
+    "turn": 0.082813094094094,
+    "noseBotFrac": 0.6232820327598299,
+    "mouthTopFrac": 0.690560549895545
+  },
+  {
+    "name": "Beyoncé",
+    "file": "photos/norm/Beyonce_norm.jpg",
+    "frontal": true,
+    "turn": 0.09628888558861227,
+    "noseBotFrac": 0.6148549819806954,
+    "mouthTopFrac": 0.6696650338319632
+  },
+  {
+    "name": "Brad Pitt",
+    "file": "photos/norm/Brad_Pitt_norm.jpg",
+    "frontal": true,
+    "turn": 0.07329478848477199,
+    "noseBotFrac": 0.6117009008056112,
+    "mouthTopFrac": 0.6661693642677983
+  },
+  {
+    "name": "Leonardo DiCaprio",
+    "file": "photos/norm/Leonardo_DiCaprio_norm.jpg",
+    "frontal": true,
+    "turn": 0.0876152701259514,
+    "noseBotFrac": 0.6180532881562094,
+    "mouthTopFrac": 0.6680505278424207
+  },
+  {
+    "name": "Scarlett Johansson",
+    "file": "photos/norm/Scarlett_Johansson_norm.jpg",
+    "frontal": true,
+    "turn": 0.03497119094215173,
+    "noseBotFrac": 0.6381849563293576,
+    "mouthTopFrac": 0.6753201819587821
+  },
+  {
+    "name": "Adele",
+    "file": "photos/norm/Adele_norm.jpg",
+    "frontal": true,
+    "turn": 0.0035451992571932595,
+    "noseBotFrac": 0.6013237007213166,
+    "mouthTopFrac": 0.6570820011348699
+  },
+  {
+    "name": "Will Smith",
+    "file": "photos/norm/Will_Smith_norm.jpg",
+    "frontal": true,
+    "turn": 0.022451194690325877,
+    "noseBotFrac": 0.5969298857010212,
+    "mouthTopFrac": 0.654946812084352
+  },
+  {
+    "name": "Tom Hanks",
+    "file": "photos/norm/Tom_Hanks_norm.jpg",
+    "frontal": true,
+    "turn": 0.03856310489251556,
+    "noseBotFrac": 0.6280492957956157,
+    "mouthTopFrac": 0.6830520726745006
+  },
+  {
+    "name": "Shakira",
+    "file": "photos/norm/Shakira_norm.jpg",
+    "frontal": true,
+    "turn": 0.0776078628960691,
+    "noseBotFrac": 0.607130979254254,
+    "mouthTopFrac": 0.6581024152767168
+  },
+  {
+    "name": "Emma Watson",
+    "file": "photos/norm/Emma_Watson_norm.jpg",
+    "frontal": true,
+    "turn": 0.07779541414164239,
+    "noseBotFrac": 0.6160140448143627,
+    "mouthTopFrac": 0.6667961866585964
+  },
+  {
+    "name": "Keanu Reeves",
+    "file": "photos/norm/Keanu_Reeves_norm.jpg",
+    "frontal": true,
+    "turn": 0.10743443896364446,
+    "noseBotFrac": 0.627059606143763,
+    "mouthTopFrac": 0.6875198249241125
+  },
+  {
+    "name": "Michelle Obama",
+    "file": "photos/norm/Michelle_Obama_norm.jpg",
+    "frontal": true,
+    "turn": 0.028025186029090963,
+    "noseBotFrac": 0.6252796917896114,
+    "mouthTopFrac": 0.6681367704283021
+  },
+  {
+    "name": "Dwayne Johnson",
+    "file": "photos/norm/Dwayne_Johnson_norm.jpg",
+    "frontal": true,
+    "turn": 0.028882562510956368,
+    "noseBotFrac": 0.6267392682710131,
+    "mouthTopFrac": 0.6722120981061467
+  },
+  {
+    "name": "Denzel Washington",
+    "file": "photos/norm/Denzel_Washington_norm.jpg",
+    "frontal": true,
+    "turn": 0.04165457961238986,
+    "noseBotFrac": 0.6031324142778364,
+    "mouthTopFrac": 0.6610809124817851
+  },
+  {
+    "name": "George Clooney",
+    "file": "photos/norm/George_Clooney_norm.jpg",
+    "frontal": true,
+    "turn": 0.04655856626557977,
+    "noseBotFrac": 0.613063886012762,
+    "mouthTopFrac": 0.6762399346448612
+  },
+  {
+    "name": "Jennifer Lawrence",
+    "file": "photos/norm/Jennifer_Lawrence_norm.jpg",
+    "frontal": true,
+    "turn": 0.06278018860441563,
+    "noseBotFrac": 0.6330626611229568,
+    "mouthTopFrac": 0.6800164661192085
+  },
+  {
+    "name": "Johnny Depp",
+    "file": "photos/norm/Johnny_Depp_norm.jpg",
+    "frontal": true,
+    "turn": 0.014008931816095761,
+    "noseBotFrac": 0.6265775799802764,
+    "mouthTopFrac": 0.685589777096779
+  },
+  {
+    "name": "Nicole Kidman",
+    "file": "photos/norm/Nicole_Kidman_norm.jpg",
+    "frontal": true,
+    "turn": 0.06283103641788021,
+    "noseBotFrac": 0.6244581920013448,
+    "mouthTopFrac": 0.67216781519053
+  },
+  {
+    "name": "Robert Downey Jr",
+    "file": "photos/norm/Robert_Downey_Jr_norm.jpg",
+    "frontal": true,
+    "turn": 0.0026266088273523263,
+    "noseBotFrac": 0.6273972460319753,
+    "mouthTopFrac": 0.6909203280332732
+  },
+  {
+    "name": "Meryl Streep",
+    "file": "photos/norm/Meryl_Streep_norm.jpg",
+    "frontal": true,
+    "turn": 0.1053778945899617,
+    "noseBotFrac": 0.6320152645891711,
+    "mouthTopFrac": 0.6821785751800096
+  },
+  {
+    "name": "Natalie Portman",
+    "file": "photos/norm/Natalie_Portman_norm.jpg",
+    "frontal": true,
+    "turn": 0.06656167931961746,
+    "noseBotFrac": 0.6249735376996924,
+    "mouthTopFrac": 0.6793894157306246
+  },
+  {
+    "name": "Hugh Jackman",
+    "file": "photos/norm/Hugh_Jackman_norm.jpg",
+    "frontal": true,
+    "turn": 0.0721595487991182,
+    "noseBotFrac": 0.6277003574655713,
+    "mouthTopFrac": 0.6948167388613324
+  },
+  {
+    "name": "Charlize Theron",
+    "file": "photos/norm/Charlize_Theron_norm.jpg",
+    "frontal": false,
+    "turn": 0.2027267615809298,
+    "noseBotFrac": 0.6172978943025289,
+    "mouthTopFrac": 0.6760827766461258
+  },
+  {
+    "name": "Anne Hathaway",
+    "file": "photos/norm/Anne_Hathaway_norm.jpg",
+    "frontal": true,
+    "turn": 0.08099544440338119,
+    "noseBotFrac": 0.6196421459635134,
+    "mouthTopFrac": 0.6767164088465677
+  },
+  {
+    "name": "Ryan Gosling",
+    "file": "photos/norm/Ryan_Gosling_norm.jpg",
+    "frontal": true,
+    "turn": 0.007912195712501733,
+    "noseBotFrac": 0.6305656995069596,
+    "mouthTopFrac": 0.6921601594548067
+  },
+  {
+    "name": "Emma Stone",
+    "file": "photos/norm/Emma_Stone_norm.jpg",
+    "frontal": true,
+    "turn": 0.02023489257440372,
+    "noseBotFrac": 0.5982871997178514,
+    "mouthTopFrac": 0.6514783340977962
+  },
+  {
+    "name": "Idris Elba",
+    "file": "photos/norm/Idris_Elba_norm.jpg",
+    "frontal": false,
+    "turn": 0.2293828825376324,
+    "noseBotFrac": 0.6420875610883148,
+    "mouthTopFrac": 0.6879396564953619
+  },
+  {
+    "name": "Cate Blanchett",
+    "file": "photos/norm/Cate_Blanchett_norm.jpg",
+    "frontal": true,
+    "turn": 0.04114571061311028,
+    "noseBotFrac": 0.6276731788406152,
+    "mouthTopFrac": 0.6851944329378216
+  },
+  {
+    "name": "Matt Damon",
+    "file": "photos/norm/Matt_Damon_norm.jpg",
+    "frontal": true,
+    "turn": 0.028029543104598237,
+    "noseBotFrac": 0.6252111781887384,
+    "mouthTopFrac": 0.689622132127953
+  },
+  {
+    "name": "Julia Roberts",
+    "file": "photos/norm/Julia_Roberts_norm.jpg",
+    "frontal": true,
+    "turn": 0.05151163764107703,
+    "noseBotFrac": 0.6349961127615636,
+    "mouthTopFrac": 0.6887144962483294
+  },
+  {
+    "name": "Samuel L. Jackson",
+    "file": "photos/norm/Samuel_L_Jackson_norm.jpg",
+    "frontal": false,
+    "turn": 0,
+    "noseBotFrac": 0.58,
+    "mouthTopFrac": 0.66
+  },
+  {
+    "name": "Al Pacino",
+    "file": "photos/norm/Al_Pacino_norm.jpg",
+    "frontal": true,
+    "turn": 0.07081817969602401,
+    "noseBotFrac": 0.6272339541148473,
+    "mouthTopFrac": 0.6857486282988949
+  },
+  {
+    "name": "Nicolas Cage",
+    "file": "photos/norm/Nicolas_Cage_norm.jpg",
+    "frontal": true,
+    "turn": 0.07889349806600089,
+    "noseBotFrac": 0.6220346269874678,
+    "mouthTopFrac": 0.6849835269234434
+  },
+  {
+    "name": "Halle Berry",
+    "file": "photos/norm/Halle_Berry_norm.jpg",
+    "frontal": true,
+    "turn": 0.08266297590226035,
+    "noseBotFrac": 0.6261699729129061,
+    "mouthTopFrac": 0.6815686727878247
+  },
+  {
+    "name": "Zendaya",
+    "file": "photos/norm/Zendaya_norm.jpg",
+    "frontal": true,
+    "turn": 0.13118099391310453,
+    "noseBotFrac": 0.6135980446151146,
+    "mouthTopFrac": 0.6558776317930775
+  },
+  {
+    "name": "Drake",
+    "file": "photos/norm/Drake_norm.jpg",
+    "frontal": true,
+    "turn": 0.036850755171462524,
+    "noseBotFrac": 0.6172342639520015,
+    "mouthTopFrac": 0.6749668126541489
+  },
+  {
+    "name": "Dua Lipa",
+    "file": "photos/norm/Dua_Lipa_norm.jpg",
+    "frontal": true,
+    "turn": 0.007233769621651518,
+    "noseBotFrac": 0.6304562574171081,
+    "mouthTopFrac": 0.6821575632322251
+  },
+  {
+    "name": "Ed Sheeran",
+    "file": "photos/norm/Ed_Sheeran_norm.jpg",
+    "frontal": true,
+    "turn": 0.010525724089030339,
+    "noseBotFrac": 0.645855762613095,
+    "mouthTopFrac": 0.6988582029542452
+  },
+  {
+    "name": "Rihanna",
+    "file": "photos/norm/Rihanna_norm.jpg",
+    "frontal": true,
+    "turn": 0.08886131903445424,
+    "noseBotFrac": 0.601728067511541,
+    "mouthTopFrac": 0.6548927107053751
+  },
+  {
+    "name": "Usain Bolt",
+    "file": "photos/norm/Usain_Bolt_norm.jpg",
+    "frontal": true,
+    "turn": 0.04409090568654992,
+    "noseBotFrac": 0.5949274156390234,
+    "mouthTopFrac": 0.6590695022864456
+  },
+  {
+    "name": "Kylian Mbappé",
+    "file": "photos/norm/Kylian_Mbappe_norm.jpg",
+    "frontal": true,
+    "turn": 0.03244533465643418,
+    "noseBotFrac": 0.6173193898469821,
+    "mouthTopFrac": 0.6800585627070228
+  },
+  {
+    "name": "LeBron James",
+    "file": "photos/norm/LeBron_James_norm.jpg",
+    "frontal": true,
+    "turn": 0.028992390653715238,
+    "noseBotFrac": 0.6214381054272309,
+    "mouthTopFrac": 0.6755562027855173
+  },
+  {
+    "name": "Novak Djokovic",
+    "file": "photos/norm/Novak_Djokovic_norm.jpg",
+    "frontal": false,
+    "turn": 0.30725843828931493,
+    "noseBotFrac": 0.6370691812179493,
+    "mouthTopFrac": 0.6757737971812796
+  },
+  {
+    "name": "Serena Williams",
+    "file": "photos/norm/Serena_Williams_norm.jpg",
+    "frontal": true,
+    "turn": 0.012934437006562194,
+    "noseBotFrac": 0.6133956087296484,
+    "mouthTopFrac": 0.6684198751671988
+  },
+  {
+    "name": "Angela Merkel",
+    "file": "photos/norm/Angela_Merkel_norm.jpg",
+    "frontal": true,
+    "turn": 0.15738602134962246,
+    "noseBotFrac": 0.6091788220306362,
+    "mouthTopFrac": 0.6682406629340378
+  },
+  {
+    "name": "Donald Trump",
+    "file": "photos/norm/Donald_Trump_norm.jpg",
+    "frontal": true,
+    "turn": 0.06159446139640454,
+    "noseBotFrac": 0.6318334529511889,
+    "mouthTopFrac": 0.6933137423870666
+  },
+  {
+    "name": "Greta Thunberg",
+    "file": "photos/norm/Greta_Thunberg_norm.jpg",
+    "frontal": true,
+    "turn": 0.0992910533057759,
+    "noseBotFrac": 0.6426558928379181,
+    "mouthTopFrac": 0.6971784632435679
+  },
+  {
+    "name": "Jeff Bezos",
+    "file": "photos/norm/Jeff_Bezos_norm.jpg",
+    "frontal": true,
+    "turn": 0.015196163129962081,
+    "noseBotFrac": 0.6381290313486235,
+    "mouthTopFrac": 0.688870763403717
+  },
+  {
+    "name": "Joe Biden",
+    "file": "photos/norm/Joe_Biden_norm.jpg",
+    "frontal": true,
+    "turn": 0.022924470701413718,
+    "noseBotFrac": 0.6285152504122189,
+    "mouthTopFrac": 0.6766005156211709
+  },
+  {
+    "name": "Mark Zuckerberg",
+    "file": "photos/norm/Mark_Zuckerberg_norm.jpg",
+    "frontal": true,
+    "turn": 0.0005067704788914874,
+    "noseBotFrac": 0.6311479757553563,
+    "mouthTopFrac": 0.6756118425042995
+  },
+  {
+    "name": "Vladimir Poutine",
+    "file": "photos/norm/Vladimir_Poutine_norm.jpg",
+    "frontal": false,
+    "turn": 0.19055118690296652,
+    "noseBotFrac": 0.6440333265104556,
+    "mouthTopFrac": 0.6999697994263004
+  },
+  {
+    "name": "Xi Jinping",
+    "file": "photos/norm/Xi_Jinping_norm.jpg",
+    "frontal": true,
+    "turn": 0.01770304352820382,
+    "noseBotFrac": 0.6323203297040582,
+    "mouthTopFrac": 0.6911274350609671
+  }
+]
